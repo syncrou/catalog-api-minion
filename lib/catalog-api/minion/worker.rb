@@ -63,7 +63,6 @@ module CatalogApi
         {
           "x-rh-identity" => Base64.strict_encode64(
             JSON.dump({"entitlements" => { "hybrid_cloud" => { "is_entitled" => true } }, "identity" => {"account_number" => tenant}})
-
           )
         }
       end
