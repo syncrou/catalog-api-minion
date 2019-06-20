@@ -26,11 +26,16 @@ module CatalogApi
         payload_params = { :payload =>  message.payload, :message => jobtype }
 
         logger.info("#{jobtype}: #{payload}")
-        response = RestClient::Request.new(:method => :post,
-                                           :headers => identity_headers(persist_ref),
-                                           :url => internal_notify_url(payload['request_id']),
-                                           :payload => payload_params).execute
+        response = post_internal_notify(payload, payload_params)
         logger.info("#{response}")
+      end
+
+
+      def post_internal_notify(payload, payload_params)
+        RestClient::Request.new(:method => :post,
+                                :headers => identity_headers(persist_ref),
+                                :url => internal_notify_url(payload['request_id']),
+                                :payload => payload_params).execute
       end
 
       def internal_notify_url(request_id)
