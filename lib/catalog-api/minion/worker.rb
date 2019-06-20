@@ -59,12 +59,6 @@ module CatalogApi
         }
       end
 
-      #def catalog_api_client(tenant = nil)
-      #  api_client = CatalogApiClient::ApiClient.new
-      #  api_client.default_headers.merge!(identity_headers(tenant)) if tenant
-      #  CatalotApiClient::DefaultApi.new(api_client)
-      #end
-
       def identity_headers(tenant)
         {
           "x-rh-identity" => Base64.strict_encode64(
