@@ -16,8 +16,7 @@ ENV RAILS_ROOT $WORKDIR
 WORKDIR $WORKDIR
 
 COPY . $WORKDIR
-COPY docker-assets/entrypoint /usr/bin
-COPY docker-assets/run_catalog_api_minion /usr/bin
+COPY docker-assets/run_catalog_minion /usr/bin
 
 RUN source echo "gem: --no-document" > ~/.gemrc && \
     gem install bundler --conservative --without development:test && \
@@ -29,5 +28,4 @@ RUN source echo "gem: --no-document" > ~/.gemrc && \
 RUN chgrp -R 0 $WORKDIR && \
     chmod -R g=u $WORKDIR
 
-ENTRYPOINT ["entrypoint"]
-CMD ["run_approval_minion"]
+CMD ["run_catalog_minion"]
