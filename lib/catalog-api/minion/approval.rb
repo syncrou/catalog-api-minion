@@ -8,7 +8,7 @@ module CatalogApi
     class Approval < Base
       include Logging
 
-      def worker_name
+      def base_name
         "Catalog API Approval Minion"
       end
 

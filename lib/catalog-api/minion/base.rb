@@ -33,7 +33,7 @@ module CatalogApi
         raise NotImplementedError, "#{__method__} must be implemented in a subclass"
       end
 
-      def worker_name
+      def base_name
         raise NotImplementedError, "#{__method__} must be implemented in a subclass"
       end
 
