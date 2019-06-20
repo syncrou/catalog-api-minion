@@ -3,7 +3,7 @@ require "catalog-api/minion/logging"
 
 module CatalogApi
   class Minion
-    class Worker
+    class Base
       include Logging
 
       def initialize(messaging_host, messaging_port)

@@ -1,11 +1,11 @@
 require 'catalog-api-client'
 require "rest-client"
-require "catalog-api/minion/worker"
+require "catalog-api/minion/base"
 require "uri"
 
 module CatalogApi
   class Minion
-    class Approval < Worker
+    class Approval < Base
       include Logging
 
       def worker_name
