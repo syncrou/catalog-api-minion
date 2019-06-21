@@ -18,7 +18,7 @@ WORKDIR $WORKDIR
 COPY . $WORKDIR
 COPY docker-assets/run_catalog_minion /usr/bin
 
-RUN source echo "gem: --no-document" > ~/.gemrc && \
+RUN echo "gem: --no-document" > ~/.gemrc && \
     gem install bundler --conservative --without development:test && \
     bundle install --jobs 8 --retry 3 && \
     find ${RUBY_GEMS_ROOT}/gems/ | grep "\.s\?o$" | xargs rm -rvf && \
