@@ -16,6 +16,7 @@ ENV RAILS_ROOT $WORKDIR
 WORKDIR $WORKDIR
 
 COPY . $WORKDIR
+COPY docker-assets/entrypoint /usr/bin
 COPY docker-assets/run_catalog_minion /usr/bin
 
 RUN echo "gem: --no-document" > ~/.gemrc && \
@@ -28,4 +29,5 @@ RUN echo "gem: --no-document" > ~/.gemrc && \
 RUN chgrp -R 0 $WORKDIR && \
     chmod -R g=u $WORKDIR
 
+ENTRYPOINT ["entrypoint"]
 CMD ["run_catalog_minion"]
