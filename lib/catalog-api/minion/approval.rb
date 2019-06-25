@@ -43,7 +43,7 @@ module CatalogApi
         URI::HTTP.build(
           :host   => config.host.split(":").first,
           :port   => config.host.split(":").last,
-          :path   => "/internal/v1.0/notify/ApprovalRequest/#{request_id}"
+          :path   => "/internal/v1.0/notify/approval_request/#{request_id}"
         ).to_s
       end
     end
