@@ -6,8 +6,8 @@ end
 ENV["RAILS_ENV"] ||= "test"
 raise "Specs must be run in test environment" if ENV["RAILS_ENV"] != "test"
 
-require "catalog-api/minion/logging"
-CatalogApi::Minion.logger = Logger.new("/dev/null")
+require "catalog/api/minion/logging"
+Catalog::Api::Minion.logger = Logger.new("/dev/null")
 
 RSpec.configure do |config|
   config.use_transactional_fixtures = true
