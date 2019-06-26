@@ -6,7 +6,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 STDOUT.sync = true
 
 require "bundler/setup"
-require "catalog-api/minion"
+require "catalog/minion"
 
 def parse_args
   require 'optimist'
