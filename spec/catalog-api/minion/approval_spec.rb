@@ -24,7 +24,7 @@ RSpec.describe CatalogApi::Minion::Approval do
     end
 
     it "builds an internal api" do
-      internal_url = "http://localhost:3000/internal/v1.0/notify/ApprovalRequest/3"
+      internal_url = "http://localhost:3000/internal/v1.0/notify/approval_request/3"
       dummy_client = double("CatalogApiClient")
       allow(dummy_client).to receive(:configure).and_return(config)
       expect(approval.internal_notify_url(payload['request_id'])).to eq internal_url
