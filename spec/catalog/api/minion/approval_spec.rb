@@ -1,5 +1,5 @@
-require "catalog-api/minion"
-RSpec.describe CatalogApi::Minion::Approval do
+require "catalog/minion"
+RSpec.describe Catalog::Api::Minion::Approval do
   context "#perform" do
     let(:approval) do
       described_class.new("localhost", "9092")

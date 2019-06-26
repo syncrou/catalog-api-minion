@@ -22,5 +22,5 @@ end
 
 args = parse_args
 
-catalog_api_minion_approval = CatalogApi::Minion::Approval.new(args[:queue_host], args[:queue_port])
+catalog_api_minion_approval = Catalog::Api::Minion::Approval.new(args[:queue_host], args[:queue_port])
 catalog_api_minion_approval.run
