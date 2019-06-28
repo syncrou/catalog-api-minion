@@ -17,6 +17,8 @@ module Catalog
           logger.info("Starting Catalog Api Minion for #{queue_name}...")
 
           self.messaging_client = ManageIQ::Messaging::Client.open(messaging_client_opts)
+
+          logger.info("Going to call perform: with opts: #{messaging_client_opts}")
           messaging_client.subscribe_topic(subscribe_opts) { |message| perform(message) }
         ensure
           messaging_client&.close
