@@ -22,6 +22,7 @@ module Catalog
         end
 
         def perform(message)
+          logger.info("Going to handle message via perform: #{message}")
           jobtype = message.message
           payload = message.payload
           payload_params = { :payload =>  message.payload, :message => jobtype }

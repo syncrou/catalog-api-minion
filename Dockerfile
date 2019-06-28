@@ -21,7 +21,7 @@ COPY docker-assets/run_catalog_minion /usr/bin
 
 RUN echo "gem: --no-document" > ~/.gemrc && \
     gem install bundler --conservative --without development:test && \
-    bundle install --jobs 8 --retry 3 && \
+    bundle install --jobs 2 --retry 3 && \
     find ${RUBY_GEMS_ROOT}/gems/ | grep "\.s\?o$" | xargs rm -rvf && \
     rm -rvf ${RUBY_GEMS_ROOT}/cache/* && \
     rm -rvf /root/.bundle/cache
