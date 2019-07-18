@@ -18,16 +18,25 @@ RSpec.describe Catalog::Api::Minion::Approval do
       test_config.host = "localhost:3000"
     end
 
-    it "posts a payload" do
-      expect(approval).to receive(:post_internal_notify).with(payload, payload_params)
-      approval.send(:perform, message)
+    before do
+      dummy_client = double("CatalogApiClient")
+      allow(dummy_client).to receive(:configure).and_return(config)
+      stub_request(:post, "http://localhost:3000/internal/v1.0/notify/approval_request/3")
     end
 
     it "builds an internal api" do
       internal_url = "http://localhost:3000/internal/v1.0/notify/approval_request/3"
-      dummy_client = double("CatalogApiClient")
-      allow(dummy_client).to receive(:configure).and_return(config)
       expect(approval.internal_notify_url(payload['request_id'])).to eq internal_url
+    end
+
+    it "posts a payload" do
+      approval.perform(message)
+      expect(a_request(:post, "http://localhost:3000/internal/v1.0/notify/approval_request/3").with(
+        :body    => {"message"=>"request_started", "payload"=> payload},
+        :headers => {
+          'X-Rh-Identity'=>'eyJlbnRpdGxlbWVudHMiOnsiaHlicmlkX2Nsb3VkIjp7ImlzX2VudGl0bGVkIjp0cnVlfX0sImlkZW50aXR5Ijp7ImFjY291bnRfbnVtYmVyIjoiY2F0YWxvZy1hcGktYXBwcm92YWwtbWluaW9uIn19'
+        }
+      )).to have_been_made.once
     end
   end
 end

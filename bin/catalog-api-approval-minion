@@ -20,6 +20,13 @@ def parse_args
   opts
 end
 
+require "catalog-api-client"
+CatalogApiClient.configure do |config|
+  config.scheme = ENV["CATALOG_SCHEME"] || "http"
+  config.host   = "#{ENV["CATALOG_HOST"]}:#{ENV["CATALOG_PORT"]}"
+  config.logger = Catalog::Api::Minion.logger
+end
+
 args = parse_args
 
 catalog_api_minion_approval = Catalog::Api::Minion::Approval.new(args[:queue_host], args[:queue_port])
