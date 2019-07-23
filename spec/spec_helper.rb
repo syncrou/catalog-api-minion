@@ -6,11 +6,12 @@ end
 ENV["RAILS_ENV"] ||= "test"
 raise "Specs must be run in test environment" if ENV["RAILS_ENV"] != "test"
 
+require "webmock/rspec"
 require "catalog/api/minion/logging"
 Catalog::Api::Minion.logger = Logger.new("/dev/null")
 
 RSpec.configure do |config|
-  config.use_transactional_fixtures = true
+  # config.use_transactional_fixtures = true
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
   # assertions if you prefer.
