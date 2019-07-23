@@ -38,13 +38,11 @@ module Catalog
         end
 
         def internal_notify_url(task_id)
-          # config = ::CatalogApiClient.configure
+          config = ::CatalogApiClient.configure
           URI::HTTP.build(
-            :host   => "catalog-api.catalog-ci.svc",
-            :port   => "8080",
+            :host   => config.host.split(":").first,
+            :port   => config.host.split(":").last,
             :path   => "/internal/v1.0/notify/order_item/#{task_id}"
-            # :host   => config.host.split(":").first,
-            # :port   => config.host.split(":").last,
           ).to_s
         end
       end

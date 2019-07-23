@@ -10,15 +10,14 @@ describe Catalog::Api::Minion::Order do
     let(:payload_params) do
       {:payload =>  message.payload, :message => message.message}
     end
-    # TODO: Use config once we have e2e-deploy
-    # let(:config) do
-    #   test_config = ::CatalogApiClient.configure
-    #   test_config.host = "catalog-api.catalog-ci.svc"
-    # end
+    let(:config) do
+      test_config = ::CatalogApiClient.configure
+      test_config.host = "catalog-api.catalog-ci.svc:8080"
+    end
 
     before do
-      # dummy_client = double("CatalogApiClient")
-      # allow(dummy_client).to receive(:configure).and_return(config)
+      dummy_client = double("CatalogApiClient")
+      allow(dummy_client).to receive(:configure).and_return(config)
       stub_request(:post, "http://catalog-api.catalog-ci.svc:8080/internal/v1.0/notify/order_item/123")
     end
 
