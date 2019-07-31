@@ -18,6 +18,8 @@ module Catalog
 
           self.messaging_client = ManageIQ::Messaging::Client.open(messaging_client_opts)
           messaging_client.subscribe_topic(subscribe_opts) { |message| perform(message) }
+        rescue Exception => e
+          logger.error "Problem performing internal api post: #{e.message}"
         ensure
           messaging_client&.close
         end
