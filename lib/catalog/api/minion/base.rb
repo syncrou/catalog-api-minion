@@ -1,5 +1,7 @@
 require "manageiq-messaging"
 require "catalog/api/minion/logging"
+require "catalog-api-client"
+require "uri"
 
 module Catalog
   module Api
@@ -23,7 +25,15 @@ module Catalog
         end
 
         def perform(message)
-          raise NotImplementedError, "#{__method__} must be implemented in a subclass"
+          jobtype = message.message
+          payload = message.payload
+          payload_params = {:payload => payload, :message => jobtype}
+
+          logger.info("#{jobtype}: #{payload}")
+          response = post_internal_notify(payload, payload_params)
+          logger.info("#{response}")
+        rescue Exception => e
+          logger.error "Problem performing internal api post: #{e.message}"
         end
 
         def queue_name
@@ -66,6 +76,15 @@ module Catalog
               JSON.dump({"entitlements" => { "hybrid_cloud" => { "is_entitled" => true } }, "identity" => {"account_number" => tenant}})
             )
           }
+        end
+
+        def internal_notify_url(path)
+          config = ::CatalogApiClient.configure
+          URI::HTTP.build(
+            :host   => config.host.split(":").first,
+            :port   => config.host.split(":").last,
+            :path   => path
+          ).to_s
         end
       end
     end

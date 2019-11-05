@@ -29,5 +29,5 @@ end
 
 args = parse_args
 
-catalog_api_minion_order = Catalog::Api::Minion::Order.new(args[:queue_host], args[:queue_port])
-catalog_api_minion_order.run
+catalog_api_task_minion = Catalog::Api::Minion::Task.new(args[:queue_host], args[:queue_port])
+catalog_api_task_minion.run

@@ -25,11 +25,6 @@ RSpec.describe Catalog::Api::Minion::Approval do
     end
 
     context "when there is no error" do
-      it "builds an internal api" do
-        internal_url = "http://localhost:3000/internal/v1.0/notify/approval_request/3"
-        expect(approval.internal_notify_url(payload['request_id'])).to eq internal_url
-      end
-
       it "posts a payload" do
         approval.perform(message)
         expect(a_request(:post, "http://localhost:3000/internal/v1.0/notify/approval_request/3").with(
