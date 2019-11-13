@@ -29,7 +29,16 @@ describe Catalog::Api::Minion::Task do
         expect(a_request(:post, "http://localhost:3000/internal/v1.0/notify/task/123").with(
           :body    => payload_params,
           :headers => {
-            'X-Rh-Identity'=>'eyJlbnRpdGxlbWVudHMiOnsiaHlicmlkX2Nsb3VkIjp7ImlzX2VudGl0bGVkIjp0cnVlfX0sImlkZW50aXR5Ijp7ImFjY291bnRfbnVtYmVyIjoiY2F0YWxvZy1hcGktdGFzay1taW5pb24ifX0='
+            'X-Rh-Identity'=>Base64.urlsafe_encode64({
+              :entitlements => {
+                :ansible => {
+                  :is_entitled => true
+                }
+              },
+              :identity => {
+                :account_number => "catalog-api-task-minion"
+              }
+            }.to_json).chomp
           }
         )).to have_been_made.once
       end

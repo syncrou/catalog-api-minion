@@ -73,7 +73,7 @@ module Catalog
         def identity_headers(tenant)
           {
             "x-rh-identity" => Base64.strict_encode64(
-              JSON.dump({"entitlements" => { "hybrid_cloud" => { "is_entitled" => true } }, "identity" => {"account_number" => tenant}})
+              JSON.dump({"entitlements" => { "ansible" => { "is_entitled" => true } }, "identity" => {"account_number" => tenant}})
             )
           }
         end
