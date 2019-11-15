@@ -25,17 +25,21 @@ RSpec.describe Catalog::Api::Minion::Approval do
     end
 
     context "when there is no error" do
-      it "builds an internal api" do
-        internal_url = "http://localhost:3000/internal/v1.0/notify/approval_request/3"
-        expect(approval.internal_notify_url(payload['request_id'])).to eq internal_url
-      end
-
       it "posts a payload" do
         approval.perform(message)
         expect(a_request(:post, "http://localhost:3000/internal/v1.0/notify/approval_request/3").with(
           :body    => {"message"=>"request_started", "payload"=> payload},
           :headers => {
-            'X-Rh-Identity'=>'eyJlbnRpdGxlbWVudHMiOnsiaHlicmlkX2Nsb3VkIjp7ImlzX2VudGl0bGVkIjp0cnVlfX0sImlkZW50aXR5Ijp7ImFjY291bnRfbnVtYmVyIjoiY2F0YWxvZy1hcGktYXBwcm92YWwtbWluaW9uIn19'
+            'X-Rh-Identity'=>Base64.urlsafe_encode64({
+              :entitlements => {
+                :ansible => {
+                  :is_entitled => true
+                }
+              },
+              :identity => {
+                :account_number => "catalog-api-approval-minion"
+              }
+            }.to_json).chomp
           }
         )).to have_been_made.once
       end

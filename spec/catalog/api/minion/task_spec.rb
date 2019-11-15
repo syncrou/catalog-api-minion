@@ -1,8 +1,8 @@
 require "catalog/minion"
 
-describe Catalog::Api::Minion::Order do
+describe Catalog::Api::Minion::Task do
   describe "#perform" do
-    let(:order) do
+    let(:task_minion) do
       described_class.new("localhost", "9092")
     end
 
@@ -10,26 +10,35 @@ describe Catalog::Api::Minion::Order do
 
     let(:payload) { {"task_id" => "123"} }
     let(:payload_params) do
-      {:payload =>  message.payload, :message => message.message}
+      {:payload => message.payload, :message => message.message}
     end
     let(:config) do
       test_config = ::CatalogApiClient.configure
-      test_config.host = "catalog-api.catalog-ci.svc:8080"
+      test_config.host = "localhost:3000"
     end
 
     before do
       dummy_client = double("CatalogApiClient")
       allow(dummy_client).to receive(:configure).and_return(config)
-      stub_request(:post, "http://catalog-api.catalog-ci.svc:8080/internal/v1.0/notify/order_item/123")
+      stub_request(:post, "http://localhost:3000/internal/v1.0/notify/task/123")
     end
 
     context "when there is no error" do
-      it "posts a payload" do
-        order.perform(message)
-        expect(a_request(:post, "http://catalog-api.catalog-ci.svc:8080/internal/v1.0/notify/order_item/123").with(
+      it "posts a payload to the order item endpoint" do
+        task_minion.perform(message)
+        expect(a_request(:post, "http://localhost:3000/internal/v1.0/notify/task/123").with(
           :body    => payload_params,
           :headers => {
-            'X-Rh-Identity'=>'eyJlbnRpdGxlbWVudHMiOnsiaHlicmlkX2Nsb3VkIjp7ImlzX2VudGl0bGVkIjp0cnVlfX0sImlkZW50aXR5Ijp7ImFjY291bnRfbnVtYmVyIjoiY2F0YWxvZy1hcGktb3JkZXItbWluaW9uIn19'
+            'X-Rh-Identity'=>Base64.urlsafe_encode64({
+              :entitlements => {
+                :ansible => {
+                  :is_entitled => true
+                }
+              },
+              :identity => {
+                :account_number => "catalog-api-task-minion"
+              }
+            }.to_json).chomp
           }
         )).to have_been_made.once
       end
@@ -37,14 +46,14 @@ describe Catalog::Api::Minion::Order do
 
     context "when there is an error" do
       before do
-        stub_request(:post, "http://catalog-api.catalog-ci.svc:8080/internal/v1.0/notify/order_item/123").and_raise(
+        stub_request(:post, "http://localhost:3000/internal/v1.0/notify/task/123").and_raise(
           StandardError.new("Oh noes!")
         )
       end
 
       it "logs the error" do
         expect(Catalog::Api::Minion.logger).to receive(:error).with("Problem performing internal api post: Oh noes!")
-        order.perform(message)
+        task_minion.perform(message)
       end
     end
   end

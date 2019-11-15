@@ -1,7 +1,6 @@
-require 'catalog-api-client'
+require "catalog-api-client"
 require "rest-client"
 require "catalog/api/minion/base"
-require "uri"
 
 module Catalog
   module Api
@@ -21,33 +20,14 @@ module Catalog
           "catalog-api-approval-minion".freeze
         end
 
-        def perform(message)
-          jobtype = message.message
-          payload = message.payload
-          payload_params = { :payload =>  message.payload, :message => jobtype }
-
-          logger.info("#{jobtype}: #{payload}")
-          response = post_internal_notify(payload, payload_params)
-          logger.info("response: #{response}")
-        rescue Exception => e
-          logger.error "Problem performing internal api post: #{e.message}"
-        end
-
+        private
 
         def post_internal_notify(payload, payload_params)
-          RestClient::Request.new(:method => :post,
-                                  :headers => identity_headers(persist_ref),
-                                  :url => internal_notify_url(payload['request_id']),
-                                  :payload => payload_params).execute
+          RestClient.post(internal_notify_url(payload['request_id']), payload_params, identity_headers(persist_ref))
         end
 
         def internal_notify_url(request_id)
-          config = ::CatalogApiClient.configure
-          URI::HTTP.build(
-            :host   => config.host.split(":").first,
-            :port   => config.host.split(":").last,
-            :path   => "/internal/v1.0/notify/approval_request/#{request_id}"
-          ).to_s
+          super("/internal/v1.0/notify/approval_request/#{request_id}")
         end
       end
     end
