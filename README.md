@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/RedHatInsights/catalog-api-minion.svg)](https://travis-ci.org/RedHatInsights/catalog-api-minion)
+[![Security](https://hakiri.io/github/RedHatInsights/catalog-api-minion/master.svg)](https://hakiri.io/github/RedHatInsights/catalog-api-minion/master)
+
 ## Usage
 
 TODO: Write usage instructions here
