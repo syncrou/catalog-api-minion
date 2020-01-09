@@ -1,4 +1,6 @@
 [![Build Status](https://travis-ci.org/RedHatInsights/catalog-api-minion.svg)](https://travis-ci.org/RedHatInsights/catalog-api-minion)
+[![Maintainability](https://api.codeclimate.com/v1/badges/a9e6e5c7feb376381c5f/maintainability)](https://codeclimate.com/github/RedHatInsights/catalog-api-minion/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/a9e6e5c7feb376381c5f/test_coverage)](https://codeclimate.com/github/RedHatInsights/catalog-api-minion/test_coverage)
 [![Security](https://hakiri.io/github/RedHatInsights/catalog-api-minion/master.svg)](https://hakiri.io/github/RedHatInsights/catalog-api-minion/master)
 
 ## Usage
