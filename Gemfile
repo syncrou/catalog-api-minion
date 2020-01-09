@@ -10,7 +10,7 @@ gem "more_core_extensions"
 gem "optimist"
 gem "prometheus_exporter", "~> 0.4.5"
 gem "rake"
-gem "rest-client"
+gem "rest-client", ">= 1.8.0"
 
 gem "manageiq-loggers", "~> 0.3.0"
 gem "manageiq-messaging", "~> 0.1.2"
