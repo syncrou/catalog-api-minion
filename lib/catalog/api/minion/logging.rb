@@ -8,7 +8,12 @@ module Catalog
       end
 
       def self.logger
-        @logger ||= ManageIQ::Loggers::CloudWatch.new
+        if ENV["LOG_TO_STDOUT"].present?
+          @logger ||= ManageIQ::Loggers::Base.new(STDOUT)
+        else
+          @logger ||= ManageIQ::Loggers::CloudWatch.new
+        end
+
       end
 
       module Logging
