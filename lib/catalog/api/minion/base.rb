@@ -29,7 +29,8 @@ module Catalog
           payload = message.payload
           payload_params = {:payload => payload, :message => jobtype}
 
-          logger.info("#{jobtype}: #{payload}")
+          logger.info("Headers: #{message.headers}")
+          logger.info("Topic: #{jobtype}: #{payload}")
           response = post_internal_notify(payload, payload_params)
           logger.info("#{response}")
         rescue Exception => e
