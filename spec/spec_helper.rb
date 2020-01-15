@@ -8,6 +8,8 @@ raise "Specs must be run in test environment" if ENV["RAILS_ENV"] != "test"
 
 require "webmock/rspec"
 require "catalog/api/minion/logging"
+require_relative "support/user_header_spec_helper"
+
 Catalog::Api::Minion.logger = Logger.new("/dev/null")
 
 RSpec.configure do |config|

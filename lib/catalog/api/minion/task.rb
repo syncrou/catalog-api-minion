@@ -21,8 +21,8 @@ module Catalog
 
         private
 
-        def post_internal_notify(payload, payload_params)
-          RestClient.post(internal_notify_url(payload['task_id']), payload_params, identity_headers(persist_ref))
+        def post_internal_notify(payload, payload_params, headers)
+          RestClient.post(internal_notify_url(payload['task_id']), payload_params, headers)
         end
 
         def internal_notify_url(task_id)

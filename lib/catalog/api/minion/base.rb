@@ -31,7 +31,7 @@ module Catalog
 
           logger.info("Headers: #{message.headers}")
           logger.info("Topic: #{jobtype}: #{payload}")
-          response = post_internal_notify(payload, payload_params)
+          response = post_internal_notify(payload, payload_params, message.headers)
           logger.info("#{response}")
         rescue Exception => e
           logger.error "Problem performing internal api post: #{e.message}"

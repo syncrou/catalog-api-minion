@@ -5,8 +5,9 @@ describe Catalog::Api::Minion::Task do
     let(:task_minion) do
       described_class.new("localhost", "9092")
     end
+    let(:headers) { UserHeaderSpecHelper.default_headers }
 
-    let(:message) { ManageIQ::Messaging::ReceivedMessage.new(nil, "Task.update", payload, nil, nil, nil) }
+    let(:message) { ManageIQ::Messaging::ReceivedMessage.new(nil, "Task.update", payload, headers, nil, nil) }
 
     let(:payload) { {"task_id" => "123"} }
     let(:payload_params) do
@@ -28,18 +29,7 @@ describe Catalog::Api::Minion::Task do
         task_minion.perform(message)
         expect(a_request(:post, "http://localhost:3000/internal/v1.0/notify/task/123").with(
           :body    => payload_params,
-          :headers => {
-            'X-Rh-Identity'=>Base64.urlsafe_encode64({
-              :entitlements => {
-                :ansible => {
-                  :is_entitled => true
-                }
-              },
-              :identity => {
-                :account_number => "catalog-api-task-minion"
-              }
-            }.to_json).chomp
-          }
+          :headers => headers
         )).to have_been_made.once
       end
     end
