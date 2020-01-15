@@ -71,14 +71,6 @@ module Catalog
           }
         end
 
-        def identity_headers(tenant)
-          {
-            "x-rh-identity" => Base64.strict_encode64(
-              JSON.dump({"entitlements" => { "ansible" => { "is_entitled" => true } }, "identity" => {"account_number" => tenant}})
-            )
-          }
-        end
-
         def internal_notify_url(path)
           config = ::CatalogApiClient.configure
           URI::HTTP.build(
