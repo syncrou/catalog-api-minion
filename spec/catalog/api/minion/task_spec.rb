@@ -5,7 +5,7 @@ describe Catalog::Api::Minion::Task do
     let(:task_minion) do
       described_class.new("localhost", "9092")
     end
-    let(:headers) { UserHeaderSpecHelper.default_headers }
+    let(:headers) { {'a' => 1, 'b' => '2'} }
 
     let(:message) { ManageIQ::Messaging::ReceivedMessage.new(nil, "Task.update", payload, headers, nil, nil) }
 

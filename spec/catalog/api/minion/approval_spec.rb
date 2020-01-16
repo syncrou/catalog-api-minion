@@ -5,7 +5,7 @@ RSpec.describe Catalog::Api::Minion::Approval do
       described_class.new("localhost", "9092")
     end
 
-    let(:headers) { UserHeaderSpecHelper.default_headers }
+    let(:headers) { {'a' => 1, 'b' => 2} }
 
     let(:message) { ManageIQ::Messaging::ReceivedMessage.new(nil, event, payload, headers, nil, nil) }
     let(:external_tenant) { SecureRandom.uuid }
