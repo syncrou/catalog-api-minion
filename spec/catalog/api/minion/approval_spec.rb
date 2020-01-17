@@ -4,7 +4,10 @@ RSpec.describe Catalog::Api::Minion::Approval do
     let(:approval) do
       described_class.new("localhost", "9092")
     end
-    let(:message)         { ManageIQ::Messaging::ReceivedMessage.new(nil, event, payload, nil, nil, nil) }
+
+    let(:headers) { {'a' => 1, 'b' => 2} }
+
+    let(:message) { ManageIQ::Messaging::ReceivedMessage.new(nil, event, payload, headers, nil, nil) }
     let(:external_tenant) { SecureRandom.uuid }
     let(:payload) do
       { "request_id" => 3 }
@@ -29,18 +32,7 @@ RSpec.describe Catalog::Api::Minion::Approval do
         approval.perform(message)
         expect(a_request(:post, "http://localhost:3000/internal/v1.0/notify/approval_request/3").with(
           :body    => {"message"=>"request_started", "payload"=> payload},
-          :headers => {
-            'X-Rh-Identity'=>Base64.urlsafe_encode64({
-              :entitlements => {
-                :ansible => {
-                  :is_entitled => true
-                }
-              },
-              :identity => {
-                :account_number => "catalog-api-approval-minion"
-              }
-            }.to_json).chomp
-          }
+          :headers => headers
         )).to have_been_made.once
       end
     end

@@ -31,7 +31,7 @@ module Catalog
 
           logger.info("Headers: #{message.headers}")
           logger.info("Topic: #{jobtype}: #{payload}")
-          response = post_internal_notify(payload, payload_params)
+          response = post_internal_notify(payload, payload_params, message.headers)
           logger.info("#{response}")
         rescue Exception => e
           logger.error "Problem performing internal api post: #{e.message}"
@@ -68,14 +68,6 @@ module Catalog
             :persist_ref     => persist_ref,
             :service         => queue_name,
             :session_timeout => 60 #seconds
-          }
-        end
-
-        def identity_headers(tenant)
-          {
-            "x-rh-identity" => Base64.strict_encode64(
-              JSON.dump({"entitlements" => { "ansible" => { "is_entitled" => true } }, "identity" => {"account_number" => tenant}})
-            )
           }
         end
 
