@@ -16,7 +16,7 @@ module Catalog
         end
 
         def persist_ref
-          "catalog-api-task-minion".freeze
+          ENV["TASK_PERSIST_REF"] || "catalog-api-task-minion".freeze
         end
 
         private

@@ -17,7 +17,7 @@ module Catalog
         end
 
         def persist_ref
-          "catalog-api-approval-minion".freeze
+          ENV["APPROVAL_PERSIST_REF"] || "catalog-api-approval-minion".freeze
         end
 
         private
